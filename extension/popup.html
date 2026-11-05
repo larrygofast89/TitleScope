@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>TitleScope</title>
+  <style>
+    body { width: 360px; font: 13px sans-serif; margin: 8px; }
+    textarea { width: 100%; box-sizing: border-box; }
+    .row { margin: 6px 0; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    label { color: #555; }
+    #status { margin: 8px 0 4px; font-weight: bold; }
+    #status.warn { color: #c0392b; }
+    .box { border: 1px solid #ccc; border-radius: 4px; }
+    .box-head { padding: 4px 8px; background: #f3f3f3; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; }
+    #meta { padding: 3px 8px; font-size: 12px; color: #666; border-bottom: 1px solid #eee; }
+    #table-wrap { max-height: 170px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { padding: 3px 8px; text-align: left; border-bottom: 1px solid #eee; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    #empty { padding: 12px; color: #888; text-align: center; }
+  </style>
+</head>
+<body>
+  <textarea id="kws" rows="6" placeholder="每行一个关键词"></textarea>
+
+  <div class="row">
+    <select id="mode">
+      <option value="intitle">intitle:"词"(精确短语)</option>
+      <option value="all">allintitle:词(所有词在标题)</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="gl">地区</label>
+    <select id="gl">
+      <option value="">自动(按 IP)</option>
+      <option value="us">美国 us</option>
+      <option value="gb">英国 gb</option>
+      <option value="ca">加拿大 ca</option>
+      <option value="au">澳大利亚 au</option>
+      <option value="in">印度 in</option>
+      <option value="de">德国 de</option>
+      <option value="fr">法国 fr</option>
+      <option value="jp">日本 jp</option>
+      <option value="sg">新加坡 sg</option>
+      <option value="hk">香港 hk</option>
+    </select>
+    <label><input type="checkbox" id="pws" checked> 关闭个性化 (pws=0)</label>
+  </div>
+  <div class="row">
+    <button id="start">开始</button>
+    <button id="stop">停止</button>
+    <button id="export">导出 CSV</button>
+    <button id="clear">清空结果</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="box">
+    <div class="box-head">
+      <span>当前缓存结果</span>
+      <span id="count-label">0 条</span>
+    </div>
+    <div id="meta" hidden></div>
+    <div id="table-wrap">
+      <div id="empty">暂无缓存结果</div>
+      <table id="tbl" hidden>
+        <thead><tr><th>关键词</th><th class="num">结果数</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
