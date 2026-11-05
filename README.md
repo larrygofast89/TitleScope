@@ -93,6 +93,7 @@ TitleScope/
 
 ### 隐私与许可证
 
+- 用户的关键词、搜索结果和设置保存在浏览器本地。搜索请求由浏览器直接发送给 Google，不经过 TitleScope 开发者服务器。
 - [隐私政策](PRIVACY.md)
 - [MIT License](LICENSE)
 
@@ -177,5 +178,6 @@ TitleScope/
 
 ### Privacy and license
 
+- Keywords, results, and settings are stored locally in your browser. Search requests are sent directly from your browser to Google and do not pass through a TitleScope developer server.
 - [Privacy Policy](PRIVACY.md)
 - [MIT License](LICENSE)
