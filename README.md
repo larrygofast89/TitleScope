@@ -1,2 +1,62 @@
-# TitleScope
+**TitleScope** 是一个 Chrome 扩展，用来**批量查询关键词的 `intitle:` / `allintitle:` 搜索结果数**，常用于 SEO 关键词竞争度分析。粘贴一个关键词列表，插件会自动逐个查询，并把结果汇总成表格，可导出 CSV。
+
+### 功能
+
+- 批量查询：每行一个关键词，自动依次查询
+- 两种模式：`intitle:"关键词"`（精确短语）和 `allintitle:关键词`（所有词都在标题中）
+- 随机间隔：每个词之间随机等待 3~8 秒，降低触发限制的概率
+- 验证码处理：遇到 Google 验证码时自动暂停并把标签页切到前台，手动通过后自动重试当前词并继续
+- 结果回显：弹窗内实时显示当前缓存的结果表格
+- 地区与个性化选项：可指定搜索地区（`gl`）并关闭个性化（`pws=0`），让不同批次的结果更可比
+- 本地持久保存：结果、关键词和选项保存在浏览器本地，关闭弹窗或后台进程被回收后依然保留，直到你点击「清空结果」
+- 导出 CSV：一键导出（带 BOM，Excel 直接打开不乱码）
+- 清空结果：手动清空缓存，清空前会提示条数
+- 纯本地运行：不上传任何数据，详见 [隐私政策](PRIVACY.md)
+
+### 安装（开发者模式）
+
+1. 从 [Releases](../../releases) 下载最新的 zip 并解压（或直接克隆本仓库，使用其中的 `extension/` 文件夹）。
+2. 在 Chrome 地址栏打开 `chrome://extensions`。
+3. 打开右上角的「开发者模式」。
+4. 点击「加载已解压的扩展程序」，选择包含 `manifest.json` 的文件夹。
+5. 点击工具栏的拼图图标，把 TitleScope 固定出来。
+
+### 使用
+
+1. 点击扩展图标，在文本框中粘贴关键词（每行一个）。
+2. 选择模式：`intitle`（精确短语）或 `allintitle`；按需选择地区，并决定是否关闭个性化。
+3. 点击「开始」。查询过程中可随时点「停止」。
+4. 完成后点击「导出 CSV」；需要重新开始前，可点「清空结果」。
+
+### 关于数据的地区
+
+- 插件请求 Google 时固定界面语言为英文（`hl=en`）。**搜索地区**可在弹窗中选择：
+  - 「自动」：不传 `gl` 参数，Google 主要根据你的 **IP / 网络环境**判断地区（例如美国 IP 对应美国结果）。
+  - 指定国家：传入 `gl=<国家代码>`（如 `us`、`gb`、`jp`），提示 Google 偏向该国家的结果。`gl` 只是提示，**IP 所在地仍可能产生影响**；想获得某个国家较可靠的数据，建议同时使用该国家的网络出口。
+- 勾选「关闭个性化」会加上 `pws=0`，减少账号和搜索历史对结果的影响，默认勾选。
+- 每一批查询所用的设置会显示在结果表格上方，并写入导出的 CSV（`mode`、`region`、`pws_off` 列）。
+- 结果数是 Google 给出的**估算值**，不同数据中心之间也会有小幅波动，适合横向比较关键词的竞争度，不适合当作精确数字。
+
+### 注意事项与免责声明
+
+- 本工具会**自动化访问 Google 搜索**。Google 的服务条款不鼓励自动化查询，请自行评估并承担使用风险。
+- 查询频率过高会触发验证码甚至临时限制。请控制每天的查询量，不要把间隔调得过短。可以在 `extension/background.js` 中调整 `sleep(3000 + Math.random() * 5000)`。
+- Google 页面结构可能随时改版，导致结果数提取失败（显示为 `—`）。遇到这种情况可以提 Issue。
+- 本项目与 Google 没有任何关联。
+
+### 项目结构
+
+```
+extension/
+├── manifest.json     # 扩展配置（Manifest V3）
+├── background.js     # 查询调度、验证码暂停/恢复
+├── popup.html        # 弹窗界面
+├── popup.js          # 弹窗逻辑、结果表格、导出/清空
+└── icons/            # 图标
+```
+
+### 许可证
+
+[MIT](LICENSE)
+ TitleScope
 **TitleScope** is a Chrome extension that **batch-checks the number of results for `intitle:` / `allintitle:` queries**, typically used for SEO keyword competition research. Paste a list of keywords and it queries them one by one, shows the results in a table, and exports them as CSV.
